@@ -1,14 +1,18 @@
-import pytest
+
+import pytest 
 
 def fix_phone_num(phone_num_to_fix):
-  # given "5125558823". Split the parts, then recombine and return
-  area_code = phone_num_to_fix[0:3] # 512 (first three digits)
-  three_part = phone_num_to_fix[3:6] # 555 (next three digits)
-  four_part = phone_num_to_fix[6:] # # 8823 (last four digits)
-  
-  fixed_num = "(" + area_code + ")" + " " + three_part + " " + four_part 
-  
-  return fixed_num
+    # Remove non-digit characters
+    phone_num = ''.join(filter(str.isdigit, phone_num_to_fix))
+    # Check if the number has exactly 10 digits
+    if len(phone_num) != 10:
+        raise ValueError("Phone number must contain exactly 10 digits.")
+    # Split the parts and format the number
+    area_code = phone_num[0:3]
+    three_part = phone_num[3:6]
+    four_part = phone_num[6:]
+    fixed_num = f"({area_code}) {three_part} {four_part}"
+    return fixed_num
 
 def test_fix_phone_num():
   assert fix_phone_num("5125558823") == '(512) 555 8823'
